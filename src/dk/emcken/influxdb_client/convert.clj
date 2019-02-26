@@ -8,7 +8,8 @@
   Just like for inserts and using the Line Protocol only measurement and at
   least one field is mandatory:
   https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference/"
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [dk.emcken.influxdb-client.precision :as precision]))
 
 (defn val->str
   [v]
@@ -22,37 +23,31 @@
   [m]
   (map #(str (name (key %)) "=" (val->str (val %))) m))
 
-(def nano-seconds-pr
-  {::ns 1
-   ::u  1000
-   ::ms 1000000
-   ::s  1000000000})
+(defmulti ->nano
+  "Takes an instant and returns it as nano seconds since epoch."
+  (fn [inst] (type inst)))
 
-;; The reason why this is implemented as a multi method is to accommodate for
-;; time being provided in different formats. By default it is assumed to be an
-;; integer in the correct precision, but if using objects like Joda-time or the
-;; new Date Time API those are easily pluggable.
-;; See the java.time.Instant below.
-(defmulti adjust-time
-  (fn [time _] (type time)))
+(defmethod ->nano :default
+  [inst]
+  (identity inst))
 
-(defmethod adjust-time :default
-  [time precision]
-  (identity time))
-
-#_(defmethod adjust-time java.time.Instant
-  [^java.time.Instant time precision]
-  (let [ns (+ (* (.getEpochSecond time) 1000000000) (.getNano time))]
-    (long (/ ns (precision nano-seconds-pr)))))
+(defn adjust-precision
+  "Takes an instant representation and returns the adjusted instant according to
+  the precision. Use nil as precision to leave the instant as-is i.e. when
+  already represented in the correct precision."
+  [inst precision]
+  (if-let [ratio (get precision/ratios precision)]
+    (long (/ (->nano inst) ratio))
+    inst))
 
 (defn point->line
   "Takes a point (hash-map) and optionally a precision and returns a string in
   the Line Protocol syntax."
   ([point]
-   (point->line point ::ns))
+   (point->line point ::precision/ns))
   ([{:keys [measurement fields tags time] :as point} precision]
    (str (str/join "," (conj (key-val->str tags) measurement))
         " "
         (str/join "," (key-val->str fields))
         (when time
-          (str " " (adjust-time time precision))))))
+          (str " " (adjust-precision time precision))))))
