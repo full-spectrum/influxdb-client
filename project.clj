@@ -8,4 +8,5 @@
                  [metosin/jsonista "0.2.2"]
                  ]
   :profiles {:dev {:dependencies [[criterium "0.4.4"]
+                                  [clojure.java-time "0.3.2"]
                                   [org.clojure/clojure "1.10.0"]]}})
