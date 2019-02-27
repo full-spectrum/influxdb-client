@@ -16,7 +16,7 @@
   (cond
     (float? v) v
     (boolean? v) (if v "t" "f")
-    (instance? java.lang.Long v) (str v "i")
+    (int? v) (str v "i")
     :else (str "\"" v "\"")))
 
 (defn key-val->str
