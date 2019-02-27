@@ -1,6 +1,6 @@
-(defproject dk.emcken/influxdb-client "1.0.0-SNAPSHOT"
+(defproject dk.emcken/influxdb-client "0.1.1"
   :description "Clojure InfluxDB client"
-  :url "https://github.com/jacobemcken/influxdb-client/"
+  :url "https://github.com/jacobemcken/clj-influxdb-client/"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [
