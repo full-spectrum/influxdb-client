@@ -39,7 +39,7 @@ Or if you have authentication also provide the username and password:
 The following code examples assumes you are in the `user` namespace and have
 required the library and a connection representation (`conn`):
 
-    user > (require '[dk.emcken.influxdb-client :as client :refer [unwrap query write]])
+    user > (require '[dk.emcken.influxdb-client.core :as client :refer [unwrap query write]])
     nil
 
     user > (def conn {:url "http://localhost:8086"})
