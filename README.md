@@ -11,7 +11,7 @@ important things for managing, reading from and writing to databases.
 
 Add the following dependency to your `project.clj` file:
 
-    [dk.emcken/influxdb-client "0.1.1"]
+    [dk.emcken/influxdb-client "0.1.2"]
 
 [![Clojars Project](https://img.shields.io/clojars/v/dk.emcken/influxdb-client.svg)](https://clojars.org/dk.emcken/influxdb-client)
 
@@ -111,3 +111,16 @@ Use `point->line` to construct a sigle line following the Line Protocol format:
     "cpu value=0.64"
 
 [2]: https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference
+
+
+The following is an extreeme [example from the InfluxDB website][3] to
+demonstrate escaping:
+
+    user> (convert/point->line
+           {:measurement "\"measurement with quo⚡️es and emoji\""
+            :tags {"tag key with sp🚀ces" "tag,value,with\"commas\""}
+            :fields {"field_k\\ey" "string field value, only \" need be esc🍭ped"}})
+    "\"measurement\\ with\\ quo⚡️es\\ and\\ emoji\",tag\\ key\\ with\\ sp🚀ces=tag\\,value\\,with\"commas\" field_k\\ey=\"string field value, only \\\" need be esc🍭ped\""
+
+
+[3]: https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference#examples-2
