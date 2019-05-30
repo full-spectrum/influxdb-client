@@ -23,16 +23,9 @@ Add the following dependency to your `project.clj` file:
 Specify how the client reaches the InfluxDB API using a hash-map:
 
 ```clojure
-{:url "http://localhost:8086"}
-```
-
-
-Or if you have authentication also provide the username and password:
-
-```clojure
 {:url "http://localhost:8086"
- :username "root"
- :password "secret"}
+ :username "root"    ; optional
+ :password "secret"} ; optional
 ```
 
 
@@ -44,6 +37,10 @@ required the library and a connection representation (`conn`):
 
     user > (def conn {:url "http://localhost:8086"})
     #'user/conn
+
+If you don't already have an InfluxDB server running Docker can be used:
+
+    docker run -p 8086:8086 -v influxdb:/var/lib/influxdb influxdb
 
 
 ### Read
@@ -124,3 +121,11 @@ demonstrate escaping:
 
 
 [3]: https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference#examples-2
+
+
+### Full circle
+
+To first write data and then extract it from the database again:
+
+    (:status (write conn "mydb" (convert/point->line {:meas "cpu" :fields {:value 0.64}})))
+    (unwrap (query conn ::client/read "SELECT * FROM mydb..cpu"))
