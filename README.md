@@ -91,23 +91,23 @@ The following hash-maps are all valid point representations:
 
 ```clojure
 ;; minimal data required by the Line Protocol
-{:measurement "cpu"
+{:meas "cpu"
  :fields {:value 0.64}}
 
 ;; now also including a few tags
-{:measurement "cpu"
+{:meas "cpu"
  :tags {:host "serverA" :region "us_west"}
  :fields {:value 0.64}}
 
 ;; now with multiple fields and different data types along with a timestamp
-{:measurement "cpu"
+{:meas "cpu"
  :fields {:value 0.64 :verified true :count 4}
  :time 1434067467000000000}
 ```
 
 Use `point->line` to construct a sigle line following the Line Protocol format:
 
-    user> (convert/point->line {:measurement "cpu" :fields {:value 0.64}})
+    user> (convert/point->line {:meas "cpu" :fields {:value 0.64}})
     "cpu value=0.64"
 
 [2]: https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference
@@ -117,7 +117,7 @@ The following is an extreeme [example from the InfluxDB website][3] to
 demonstrate escaping:
 
     user> (convert/point->line
-           {:measurement "\"measurement with quo⚡️es and emoji\""
+           {:meas "\"measurement with quo⚡️es and emoji\""
             :tags {"tag key with sp🚀ces" "tag,value,with\"commas\""}
             :fields {"field_k\\ey" "string field value, only \" need be esc🍭ped"}})
     "\"measurement\\ with\\ quo⚡️es\\ and\\ emoji\",tag\\ key\\ with\\ sp🚀ces=tag\\,value\\,with\"commas\" field_k\\ey=\"string field value, only \\\" need be esc🍭ped\""

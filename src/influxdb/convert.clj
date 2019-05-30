@@ -1,12 +1,12 @@
 (ns influxdb.convert
   "For convenience a point can be represented by a hash-map:
-     {:measurement \"cpu\"
+     {:meas \"cpu\"
       :tags {:host \"serverA\" :region \"us_west\"}
       :fields {:value 0.64 :count 3}
       :time 1434067467000000000}
 
-  Just like for inserts and using the Line Protocol only measurement and at
-  least one field is mandatory:
+  Just like for inserts and using the Line Protocol only measurement (meas) and
+  at least one field is mandatory:
   https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference/"
   (:require [clojure.string :as str]
             [influxdb.precision :as precision]))
@@ -55,9 +55,9 @@
   the Line Protocol syntax."
   ([point]
    (point->line point ::precision/ns))
-  ([{:keys [measurement fields tags time] :as point} precision]
+  ([{:keys [meas fields tags time] :as point} precision]
    (str (str/join "," (conj (key-val->str escape tags)
-                            (str/escape measurement {\, "\\," \space "\\ "})))
+                            (str/escape meas {\, "\\," \space "\\ "})))
         " "
         (str/join "," (key-val->str format-data-type fields))
         (when time
