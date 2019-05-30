@@ -1,4 +1,4 @@
-(ns dk.emcken.influxdb-client.core
+(ns influxdb.client
   "When interacting with the InfluxDB HTTP API a \"connection\" needs to be
   provided. A connection is a hash-map describing how to connect to InfluxDB and
   could look like the following:

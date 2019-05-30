@@ -1,5 +1,5 @@
-(ns dk.emcken.influxdb-client.java-time
-  (:require [dk.emcken.influxdb-client.convert :as convert]
+(ns influxdb.java-time
+  (:require [influxdb.convert :as convert]
             [java-time]))
 
 (defmethod convert/->nano java.time.Instant

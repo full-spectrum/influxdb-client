@@ -1,4 +1,4 @@
-(ns dk.emcken.influxdb-client.convert
+(ns influxdb.convert
   "For convenience a point can be represented by a hash-map:
      {:measurement \"cpu\"
       :tags {:host \"serverA\" :region \"us_west\"}
@@ -9,7 +9,7 @@
   least one field is mandatory:
   https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference/"
   (:require [clojure.string :as str]
-            [dk.emcken.influxdb-client.precision :as precision]))
+            [influxdb.precision :as precision]))
 
 (defn format-data-type
   "See https://docs.influxdata.com/influxdb/v1.7/write_protocols/line_protocol_reference#data-types"

@@ -1,4 +1,4 @@
-(ns dk.emcken.influxdb-client.precision)
+(ns influxdb.precision)
 
 (def ratios
   {::ns 1

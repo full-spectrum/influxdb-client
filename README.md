@@ -11,9 +11,9 @@ important things for managing, reading from and writing to databases.
 
 Add the following dependency to your `project.clj` file:
 
-    [dk.emcken/influxdb-client "0.1.2"]
+    [fullspectrum/influxdb-client "1.0.0"]
 
-[![Clojars Project](https://img.shields.io/clojars/v/dk.emcken/influxdb-client.svg)](https://clojars.org/dk.emcken/influxdb-client)
+[![Clojars Project](https://img.shields.io/clojars/v/fullspectrum/influxdb-client.svg)](https://clojars.org/fullspectrum/influxdb-client)
 
 
 ## Usage
@@ -39,7 +39,7 @@ Or if you have authentication also provide the username and password:
 The following code examples assumes you are in the `user` namespace and have
 required the library and a connection representation (`conn`):
 
-    user > (require '[dk.emcken.influxdb-client.core :as client :refer [unwrap query write]])
+    user > (require '[influxdb.client :as client :refer [unwrap query write]])
     nil
 
     user > (def conn {:url "http://localhost:8086"})
@@ -83,7 +83,7 @@ If you already have the data you want to write in the [Line Protocol][2]:
 If not you can use the `convert` namespace to generate Line Protocol syntax from
 a hash-map:
 
-    user> (require '[dk.emcken.influxdb-client.convert :as convert])
+    user> (require '[influxdb.convert :as convert])
     nil
 
 
