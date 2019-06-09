@@ -1,4 +1,4 @@
-(defproject fullspectrum/influxdb-client "1.0.0-SNAPSHOT"
+(defproject fullspectrum/influxdb-client "1.0.0"
   :description "Clojure InfluxDB client. Supporting InfluxDB 1.7 and without
   introducing an unnecessary extra dependency like the Java client."
   :url "https://github.com/full-spectrum/clj-influxdb-client/"
